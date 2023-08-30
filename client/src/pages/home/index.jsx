@@ -116,7 +116,7 @@ export default function HomePage() {
         <p className="mt-10 text-sm text-center text-gray-400">
           Are you an admin?{" "}
           <Link
-            href="/admin/rooms"
+            to="/admin/rooms"
             className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300"
           >
             Manage your room here

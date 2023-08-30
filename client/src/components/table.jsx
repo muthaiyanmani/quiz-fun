@@ -12,8 +12,8 @@ export default function Table({ header = [], data = [], meta = {}, showLoader = 
       {
         meta?.name && ( <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">{meta.name}</h1>
-          <p className="mt-2 text-sm text-gray-700">
+          <h1 className="text-base font-semibold leading-6 text-white">{meta.name}</h1>
+          <p className="mt-2 text-sm text-gray-500">
             {meta.description}
           </p>
         </div>

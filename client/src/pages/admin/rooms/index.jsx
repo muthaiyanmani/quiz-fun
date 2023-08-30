@@ -5,35 +5,28 @@ import { useUser } from "../../../context/user";
 import { useEffect } from "react";
 import moment from "moment";
 
-const roomLevelOptions = [
-  { label: "Easy (3)", value: 3 },
-  { label: "Medium (5)", value: 5 },
-  { label: "Intermediate (7)", value: 7 },
-  { label: "Hard (10)", value: 10 },
-]
 
 export default function RoomsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [roomName, setRoomName] = useState("");
-  const [roomLevel, setRoomLevel] = useState(roomLevelOptions[0].value);
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
- 
 
   const getRooms = async () => {
     setIsLoading(true);
     try {
-      const datastore = window.catalyst.table.tableId("Room");
+      const datastore = window.catalyst.table.tableId("Rooms");
       const response = await datastore.getPagedRows({ max_rows: 100 });
 
       let rooms = response.content || [];
+
+      console.log(rooms);
       rooms = rooms.map(({ NAME, ROWID, CREATEDBY, CREATEDTIME,LEVEL }) => ({
         id: ROWID,
         name: NAME,
         createdBy: CREATEDBY,
         createdAt: moment(CREATEDTIME).format("MMMM D, YYYY"),
-        level: LEVEL,
         link: `/admin/room/${ROWID}/dashboard`
       }));
       setRooms(rooms);
@@ -52,7 +45,6 @@ export default function RoomsPage() {
     { label: "Name", key: "name" },
     { label: "Created By", key: "createdBy" },
     { label: "Created At", key: "createdAt" },
-    { label: "Level", key: "level" },
     { label: "Link", key: "link" }
   ];
 
@@ -67,9 +59,9 @@ export default function RoomsPage() {
   const createNewRoom = async (e) => {
     e.preventDefault();
     try {
-      const datastore = window.catalyst.table.tableId("Room");
+      const datastore = window.catalyst.table.tableId("Rooms");
       const response = await datastore.addRow([
-        { NAME: roomName,LEVEL: roomLevel, CREATEDBY: userDetails.email_id }
+        { NAME: roomName, CREATEDBY: userDetails.email_id }
       ]);
       const isSuccess = response.status >= 200 && response.status < 300;
       const data = response.content[0];
@@ -131,23 +123,7 @@ export default function RoomsPage() {
               </div>
             </div>
           </div>
-          <div className="mt-3 sm:mt-5">
-            <div>
-              <label
-                htmlFor="level"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Level
-              </label>
-              <div className="mt-2">
-                <select required value={roomLevel} onChange={(e) => setRoomLevel(e.target.value)} className="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                  {roomLevelOptions.map((item, index) => (
-                    <option key={index} value={item.value}>{item.label}</option>
-                  ))}
-               </select>
-              </div>
-            </div>
-          </div>
+        
         </div>
         <br />
         <div className="gap-6 sm:flex sm:flex-row-reverse sm:px-6">

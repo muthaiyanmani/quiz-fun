@@ -1,19 +1,26 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getPlayerDetails } from "../../utils/client";
-import { toast } from "react-toastify";
-import Timer from "./timer";
+import {
+  fetchCurrentQuestionOptions,
+  getPlayerDetails
+} from "../../utils/client";
+import { POLLING_INTERVAL } from "../../utils/constants";
+import AnswerCard from "./answer-card";
 
 export default function PlayPage() {
   let { roomId, userId } = useParams();
-  const [playerStats, setPlayerStats] = useState({
-    userName: "Fetching..",
-    score: "Fetching..",
-    level: "Fetching.."
+  const [quiz, setQuiz] = useState({
+    data: { question: "", options: [] },
+    messsage: "Fetching quiz..."
   });
+  const [playerStats, setPlayerStats] = useState({ userName: "Fetching..." });
 
   useEffect(() => {
     getPlayerData();
+    const intervalId = setInterval(fetchQuestions, POLLING_INTERVAL);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const getPlayerData = async () => {
@@ -21,23 +28,35 @@ export default function PlayPage() {
       const { data } = await getPlayerDetails(userId);
       const playerData = data?.data;
       setPlayerStats(playerData);
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message;
-      toast.error(errorMessage, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-    }
+    } catch (err) {}
   };
 
-  const updatePlayerStats = (stats) => {
-    setPlayerStats(stats);
+  function transformString(inputString) {
+    const words = inputString.replace(/([a-z])([A-Z])/g, "$1 $2").split(" ");
+    const capitalizedWords = words.map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    );
+    return capitalizedWords[1];
+  }
+
+  const getQuizOptions = (options) =>
+    Object.keys(options)
+      .filter((key) => key.startsWith("option"))
+      .map((key) => ({ label: options[key], value: transformString(key) })) ||
+    [];
+
+  const fetchQuestions = async () => {
+    try {
+      const { data } = await fetchCurrentQuestionOptions(roomId);
+      const quizOptions = getQuizOptions(data?.data);
+      setQuiz({
+        data: { question: data?.data?.question, options: quizOptions },
+        messsage: ""
+      });
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || err.message;
+      setQuiz({ data: { question: "", options: [] }, messsage: errorMessage });
+    }
   };
 
   return (
@@ -46,22 +65,12 @@ export default function PlayPage() {
         <h3>
           Player: <b>{playerStats?.userName}</b>
         </h3>
-        <h3>
-          Score: <b>{playerStats?.score}</b>
-        </h3>
-        <h3>
-          Level:<b> {playerStats?.level}</b>
-        </h3>
-        <h3>
-          Target Timer:{" "}
-          <b>{parseInt(playerStats?.level) * 100}</b>
-        </h3>
         <br />
         <br />
-        <Timer
-          setPlayerDetails={updatePlayerStats}
-          playerDetails={playerStats}
-        />
+
+        {!!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} />}
+
+        <h2>{quiz?.messsage}</h2>
       </div>
     </div>
   );

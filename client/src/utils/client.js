@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const createPlayer = async (reqBody) => { 
-   return await axios.post("/server/stop_me_fun_function/player/create", reqBody);
+   return await axios.post("/server/quiz_fun/user/create", reqBody);
 }
 
 const getPlayerDetails = async (userId) => { 
-    return await axios.get(`/server/stop_me_fun_function/player/${userId}`);
+    return await axios.get(`/server/quiz_fun/user/${userId}`);
 }
 
 const updatePlayerStatus = async (userId, reqBody) => { 

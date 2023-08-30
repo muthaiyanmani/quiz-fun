@@ -2,8 +2,8 @@ import { useEffect } from "react";
 
 export default function SignInPage() { 
     useEffect(() => {
-        window.catalyst.auth.signIn('login', {signInProvidersOnly : true});
-      }, [])
+        window.catalyst.auth.signIn('login', { signInProvidersOnly: true });
+    }, []);
     return (
         <>
         

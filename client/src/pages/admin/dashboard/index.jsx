@@ -1,9 +1,11 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import StartScreen from "./start-screen";
 import QuestionCard from "../../../components/question";
+import { getQuestions } from "../../../utils/client";
+import { useQuestions } from "../../../context/questions";
 
 const activityItems = [
   {
@@ -21,8 +23,11 @@ const activityItems = [
   // More items...
 ];
 
-export default function DashboardPage() {
+export default function DashboardPage({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { getAllQuestions } = useQuestions();
+  const questions = getAllQuestions();
+  console.log(questions);
 
   return (
     <>
@@ -104,11 +109,7 @@ export default function DashboardPage() {
                 </h1>
               </Link>
             </header>
-            {/* // TODO: Write your dynamic code here */}
-            <div className="px-4 rounded-xl">
-              {/* <StartScreen/> */}
-              <QuestionCard/>
-              </div>
+            <div className="px-4 rounded-xl">{children}</div>
           </main>
 
           {/* Activity feed */}

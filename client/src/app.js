@@ -7,6 +7,9 @@ import { useUser } from "./context/user";
 import PlayPage from "./pages/play";
 import DashboardPage from "./pages/admin/dashboard";
 import { useLocation } from "react-router-dom";
+import StartScreen from "./pages/admin/dashboard/start-screen";
+import QuestionCard from "./components/question";
+import { QuestionProvider } from "./context/questions";
 
 export default function App() {
   const { getUserDetails } = useUser();
@@ -30,15 +33,32 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route
           path="/admin/room/:roomId/dashboard"
           element={
             <ProtectedRoute isLoggedIn={isUserLoggedIn}>
-              <DashboardPage />
+              <QuestionProvider>
+                <DashboardPage>
+                  <StartScreen />
+                </DashboardPage>
+              </QuestionProvider>
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/room/:roomId/dashboard/quiz/:questionId"
+          element={
+            <ProtectedRoute isLoggedIn={isUserLoggedIn}>
+              <QuestionProvider>
+                <DashboardPage>
+                  <QuestionCard />
+                </DashboardPage>
+              </QuestionProvider>
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/admin/signin" element={<SignInPage />} />
       </Routes>
     </>

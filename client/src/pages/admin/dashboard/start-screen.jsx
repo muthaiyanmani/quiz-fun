@@ -1,12 +1,29 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const stats = [
-  { name: "Room Name", value: "Catalyst" },
-  { name: "Number of Players", value: "65" },
-  { name: "Number of Questions", value: "3" }
+const statsOptions = [
+  { name: "Room Name", key:"roomName", value: "Fetc" },
+  { name: "Number of Players",key:"players", value: "65" },
+  { name: "Number of Questions",key:"questions", value: "3" }
 ];
 
 export default function StartScreen() {
+
+    const [stats, setStats] = useState(statsOptions);
+    const { roomId } = useParams();
+
+    const getRoomStats = async () => {
+        const query = `SELECT Rooms.NAME AS room_name,(SELECT COUNT(*) FROM Participants WHERE ROOMID=${roomId}) AS participant_count,(SELECT COUNT(*) FROM Questions WHERE ROOMID =${roomId}) AS question_count FROM Rooms WHERE Rooms.ROOMID =${roomId};`;
+        const resp = await window.catalyst.ZCatalystQL.executeQuery(query);
+        // const count = resp.content[0].Players.COUNT;
+        //setStats((prev) => ({ ...prev, players: count }));
+    }
+
+    useEffect(() => {
+        getRoomStats();
+    }, []);
+
   return (
     <div className="flex flex-col items-center justify-center p-4 mx-4 border-2 border-gray-600 rounded-lg">
       <div className="m-8 bg-gray-900 ">

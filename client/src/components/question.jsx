@@ -4,6 +4,9 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function QuestionCard() {
+
+  
+
   return (
     <form className="p-4 text-white">
       <div className="space-y-12">

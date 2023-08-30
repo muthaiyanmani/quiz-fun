@@ -6,22 +6,32 @@ import { useQuestions } from "../context/questions";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import QuizOptions from "./options";
+import { updateCurrentQuestion } from "../utils/client";
 
 export default function QuestionCard() {
   const { getCurrentQuestion, getAllQuestions } = useQuestions();
   const navigate = useNavigate();
-  const { roomId } = useParams();
+  const { roomId ,questionId } = useParams();
 
   const quiz =getCurrentQuestion();
   const questions = getAllQuestions() || [];
   const hasPrevious = quiz?.index > 1;
   const hasNext = quiz?.index < questions.length;
 
+
+  useEffect(() => {
+    updateCurrentQuestion(roomId, questionId);
+    return () => { 
+
+    }
+  }, [questionId]);
+
   function transformString(inputString) {
     const words = inputString.replace(/([a-z])([A-Z])/g, '$1 $2').split(' ');
     const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
     return capitalizedWords.join(' ');
-}
+  }
+
 
   
   const getQuizOptions = () => Object.keys(quiz).filter((key) => key.startsWith('option')).map((key) => ({ key: quiz[key],label: transformString(key)  })) || []

@@ -51,8 +51,6 @@ export default function PlayPage() {
   const fetchQuestions = async () => {
     try {
       const { data, status } = await fetchCurrentQuestion(roomId, userId);
-
-      console.log({data,status});
       if (status === 200) {
         const quizOptions = getQuizOptions(data?.data);
         setQuiz({
@@ -71,7 +69,7 @@ export default function PlayPage() {
   const submitAnswer = async (e) => { 
     setIsLoading(true);
     try {
-      const { data } = await submitQuizAnswer(roomId, { questionId: quiz?.data?.id, answer: e.target.value, userId });
+      const { data } = await submitQuizAnswer(roomId, quiz?.data?.id, { answer: e.target.value, userId });
       setQuiz({ data: { question: "",id:"", options: [] }, messsage: data?.message });
     }catch(err) { 
       console.log({err});
@@ -93,7 +91,7 @@ export default function PlayPage() {
 
         {isLoading && <FadeLoader color="#36d7b7" />}
 
-        <h2>{quiz?.messsage}</h2>
+        <h2 className="p-2 text-sm">{quiz?.messsage}</h2>
       </div>
     </div>
   );

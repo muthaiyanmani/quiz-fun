@@ -17,6 +17,17 @@ router.get('/:roomId/questions',async (req, res) => {
     }
 });
 
+// router.put('/:roomId/question/:questionId/update', async (req, res) => { 
+//     const app = catalyst.initialize(req, { scope: "admin" });
+//     try {
+//         const cache = await app.cache().segment().update('CurrentQuestionId', req.params.questionId);
+//         res.status(200).json({ status:"success", message: "Question updated successfully." });
+//     }catch(err) { 
+//         res.status(500).json({ status:"failure", message: "Error in updating questionID in cache." });
+//     }
+
+// })
+
 router.get('/:roomId/user/:userId/question/current', async (req, res) => {
     const app = catalyst.initialize(req);
     const { roomId, userId } = req.params;
@@ -62,14 +73,20 @@ router.get('/:roomId/question/:questionId',async (req, res) => {
     }
 });
 
-router.post('/:roomId/quiz', async (req, res) => { 
+router.post('/:roomId/question/:questionId/quiz', async (req, res) => { 
     const app = catalyst.initialize(req, { scope:"admin"});
-    const { roomId } = req.params;
-    const { questionId, answer, userId } = req.body;
+    const { roomId, questionId } = req.params;
+    const { answer, userId } = req.body;
 
-    console.log(req.body);
+   
     try {
-        const userTable = await app.datastore().table("AnsweredQuiz").insertRow({ PLAYERID: userId, QUESTIONID: questionId, ANSWER: answer });
+        const query = `SELECT ROWID,NOOFPEOPLE FROM Answers WHERE QUESTIONID=${questionId} AND ANSWER='${answer}'`;
+        const answerTableData = await app.zcql().executeZCQLQuery(query);
+        const answerTableRowId = answerTableData[0]?.Answers?.ROWID;
+        const noOfPeople = answerTableData[0]?.Answers?.NOOFPEOPLE;
+
+        await app.datastore().table("AnsweredQuiz").insertRow({ PLAYERID: userId, QUESTIONID: questionId, ANSWERID: answerTableRowId });
+        await app.datastore().table("Answers").updateRow({ ROWID:answerTableRowId, NOOFPEOPLE: parseInt(noOfPeople) + 1 });
         return res.status(202).json({ status: "success", message: "Question has been answered. Waiting for next question." });
     } catch (err) { 
         console.log(err);

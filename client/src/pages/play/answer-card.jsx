@@ -13,7 +13,7 @@
                   id={index}
                   name="quiz"
                   type="radio"
-                  value={option.value}
+                  value={option.label}
                   onChange={postAnswer}
                   className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-600"
                 />

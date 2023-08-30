@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import StartScreen from "./start-screen";
+import QuestionCard from "../../../components/question";
 
 const activityItems = [
   {
@@ -98,14 +99,15 @@ export default function DashboardPage() {
           <main className="lg:pr-96">
             <header className="flex items-center justify-between px-4 py-4 border-b border-white/5 sm:px-6 sm:py-6 lg:px-8">
               <Link to="/">
-                <h1 className="text-xl font-semibold leading-7 text-white">
+                <h1 className="text-xl font-semibold leading-7 text-white lg:text-3xl">
                   Quiz.fun
                 </h1>
               </Link>
             </header>
             {/* // TODO: Write your dynamic code here */}
-            <div className="rounded-xl">
-              <StartScreen/>
+            <div className="px-4 rounded-xl">
+              {/* <StartScreen/> */}
+              <QuestionCard/>
               </div>
           </main>
 

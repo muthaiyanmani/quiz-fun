@@ -2,5 +2,12 @@
   "client": {
     "source": "client",
     "plugin": "zcatalyst-cli-plugin-react"
+  },
+  "functions": {
+    "targets": [
+      "quiz_fun"
+    ],
+    "ignore": [],
+    "source": "functions"
   }
 }

@@ -1,6 +1,6 @@
 {
 	"deployment": {
-		"name": "stop_me_fun_function",
+		"name": "quiz_fun",
 		"stack": "node16",
 		"type": "advancedio",
 		"env_variables": {}

@@ -125,3 +125,5 @@ web_modules/
 .pnp.*
 
 .idea/
+
+.build

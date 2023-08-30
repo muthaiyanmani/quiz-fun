@@ -5,16 +5,16 @@ import App from "./app";
 import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import { UserProvider } from "./context/user";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
-    <HashRouter>
-      <UserProvider>
-        <App />
+  <HashRouter>
+    <UserProvider>
+      <App />
     </UserProvider>
-    <ToastContainer autoClose={3000}/>
-    </HashRouter>,
+    <ToastContainer autoClose={3000} />
+  </HashRouter>,
   document.getElementById("root")
 );
 

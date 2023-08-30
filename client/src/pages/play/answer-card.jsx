@@ -1,5 +1,5 @@
 
-  export default function AnswerCard({ quiz }) {
+  export default function AnswerCard({ quiz, postAnswer }) {
     return (
       <div>
             <p className="text-sm text-gray-500">{quiz?.question}</p>
@@ -13,6 +13,8 @@
                   id={index}
                   name="quiz"
                   type="radio"
+                  value={option.value}
+                  onChange={postAnswer}
                   className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-600"
                 />
                 <label htmlFor={index} className="block ml-3 text-sm font-medium leading-6 ">

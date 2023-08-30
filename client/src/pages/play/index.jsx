@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  fetchCurrentQuestionOptions,
-  getPlayerDetails
+  fetchCurrentQuestion,
+  getPlayerDetails,
+  submitQuizAnswer
 } from "../../utils/client";
 import { POLLING_INTERVAL } from "../../utils/constants";
 import AnswerCard from "./answer-card";
+import {FadeLoader } from 'react-spinners';
 
 export default function PlayPage() {
   let { roomId, userId } = useParams();
@@ -14,6 +16,7 @@ export default function PlayPage() {
     messsage: "Fetching quiz..."
   });
   const [playerStats, setPlayerStats] = useState({ userName: "Fetching..." });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getPlayerData();
@@ -47,17 +50,35 @@ export default function PlayPage() {
 
   const fetchQuestions = async () => {
     try {
-      const { data } = await fetchCurrentQuestionOptions(roomId);
-      const quizOptions = getQuizOptions(data?.data);
-      setQuiz({
-        data: { question: data?.data?.question, options: quizOptions },
-        messsage: ""
-      });
+      const { data, status } = await fetchCurrentQuestion(roomId, userId);
+
+      console.log({data,status});
+      if (status === 200) {
+        const quizOptions = getQuizOptions(data?.data);
+        setQuiz({
+          data: { question: data?.data?.question, id: data?.data?.id, options: quizOptions },
+          messsage: ""
+        });
+      } else {
+        setQuiz({ data: { question: "",id:"", options: [] }, messsage: data?.message });
+      }
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message;
-      setQuiz({ data: { question: "", options: [] }, messsage: errorMessage });
+      setQuiz({ data: { question: "",id:"", options: [] }, messsage: errorMessage });
     }
   };
+
+  const submitAnswer = async (e) => { 
+    setIsLoading(true);
+    try {
+      const { data } = await submitQuizAnswer(roomId, { questionId: quiz?.data?.id, answer: e.target.value, userId });
+      setQuiz({ data: { question: "",id:"", options: [] }, messsage: data?.message });
+    }catch(err) { 
+      console.log({err});
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="mt-4 text-gray-50">
@@ -67,8 +88,10 @@ export default function PlayPage() {
         </h3>
         <br />
         <br />
+        
+        {!!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} postAnswer={submitAnswer} />}
 
-        {!!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} />}
+        {isLoading && <FadeLoader color="#36d7b7" />}
 
         <h2>{quiz?.messsage}</h2>
       </div>

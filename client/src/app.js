@@ -47,7 +47,7 @@ export default function App() {
           }
         />
         <Route
-          path="/admin/room/:roomId/dashboard/quiz/:questionId"
+          path="/admin/room/:roomId/quiz/:questionId/view"
           element={
             <ProtectedRoute isLoggedIn={isUserLoggedIn}>
               <QuestionProvider>

@@ -17,20 +17,23 @@ const reducer = (state, action) => {
 
 const QuestionProvider = ({ children }) => { 
     const [state, dispatch] = useReducer(reducer, null);
-    const { roomId} = useParams();
+    const { roomId, questionId} = useParams();
     
     useEffect(() => { 
         const fetchQuestions = async () => {
             const { data } = await getQuestions(roomId);
-            dispatch({ type: 'GET_QUESTIONS', payload: data?.data || [] });
+            let questions = data?.data || [];
+            questions = questions.map((quest, index) => ({ ...quest, index: index + 1}));
+            dispatch({ type: 'GET_QUESTIONS', payload: questions });
         }
         fetchQuestions();
     }, [])
 
-    const getAllQuestions = () => state;
-    const getQuestionById = (questionId) => state.find(question => question.id === questionId);
+    const getAllQuestions = () => state || [];
+    const getQuestionById = (questionId) => state?.find(question => question.id === questionId) || {};
+    const getCurrentQuestion = () => state?.find(question => question.id === questionId) || {};
 
-    const value = { getAllQuestions, getQuestionById };
+    const value = { getAllQuestions, getQuestionById, getCurrentQuestion };
     return <QuestionContext.Provider value={value}>{children}</QuestionContext.Provider>
 }
 

@@ -1,29 +1,21 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useQuestions } from "../../../context/questions";
 
 const statsOptions = [
-  { name: "Room Name", key:"roomName", value: "Fetc" },
-  { name: "Number of Players",key:"players", value: "65" },
-  { name: "Number of Questions",key:"questions", value: "3" }
+  { name: "Room Name", key:"roomName", value: "Fetching.." },
+  { name: "Number of Players",key:"players", value: "Fetching.." },
+  { name: "Number of Questions",key:"questions", value: "Fetching.." }
 ];
 
 export default function StartScreen() {
 
-    const [stats, setStats] = useState(statsOptions);
-    const { roomId } = useParams();
-
-    const getRoomStats = async () => {
-        const query = `SELECT Rooms.NAME AS room_name,(SELECT COUNT(*) FROM Participants WHERE ROOMID=${roomId}) AS participant_count,(SELECT COUNT(*) FROM Questions WHERE ROOMID =${roomId}) AS question_count FROM Rooms WHERE Rooms.ROOMID =${roomId};`;
-        const resp = await window.catalyst.ZCatalystQL.executeQuery(query);
-        // const count = resp.content[0].Players.COUNT;
-        //setStats((prev) => ({ ...prev, players: count }));
-    }
-
-    useEffect(() => {
-        getRoomStats();
-    }, []);
-
+  const [stats, setStats] = useState(statsOptions);
+  const { roomId } = useParams();
+  
+  const { getAllQuestions } = useQuestions();
+  const questions = getAllQuestions() || [];
   return (
     <div className="flex flex-col items-center justify-center p-4 mx-4 border-2 border-gray-600 rounded-lg">
       <div className="m-8 bg-gray-900 ">
@@ -52,13 +44,13 @@ export default function StartScreen() {
       </div>
 
       <div className="text-white">
-        <button
-          type="button"
+        <Link
+          to={`/admin/room/${roomId}/quiz/${questions[0]?.id}/view`}
           className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           <CheckCircleIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
           Start Quiz
-        </button>
+        </Link>
       </div>
     </div>
   );

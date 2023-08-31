@@ -46,8 +46,7 @@ const updateCurrentQuestion = async (roomId, questionId) => {
 }
 
 const getLeaderboardStats = async (roomId, questionId) => { 
-    // TODO: Need to add roomid criteria;
-    const query = `SELECT sum(NOOFPEOPLE), AnsweredQuiz.PLAYERID,Players.NAME FROM Answers INNER JOIN AnsweredQuiz ON Answers.ROWID=AnsweredQuiz.ANSWERID INNER JOIN Players ON AnsweredQuiz.PLAYERID=Players.ROWID GROUP BY AnsweredQuiz.PLAYERID,Players.NAME`;
+    const query = `SELECT sum(NOOFPEOPLE), AnsweredQuiz.PLAYERID,Players.NAME FROM Answers INNER JOIN AnsweredQuiz ON Answers.ROWID=AnsweredQuiz.ANSWERID INNER JOIN Players ON AnsweredQuiz.PLAYERID=Players.ROWID INNER JOIN Rooms ON Players.ROOMID=Rooms.ROWID WHERE Rooms.ROWID=${roomId} GROUP BY AnsweredQuiz.PLAYERID,Players.NAME`;
     try {
       const resp = await window.catalyst.ZCatalystQL.executeQuery(query);
       const data = resp.content || [];

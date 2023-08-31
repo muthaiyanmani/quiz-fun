@@ -8,6 +8,7 @@ import {
 import { POLLING_INTERVAL } from "../../utils/constants";
 import AnswerCard from "./answer-card";
 import {FadeLoader } from 'react-spinners';
+import { getData } from "../../utils/localstorage";
 
 export default function PlayPage() {
   let { roomId, userId } = useParams();
@@ -15,7 +16,9 @@ export default function PlayPage() {
     data: { question: "", options: [] },
     messsage: "Fetching quiz..."
   });
-  const [playerStats, setPlayerStats] = useState({ userName: "Fetching..." });
+
+  const playerData = getData("playerData");
+  const [playerStats, setPlayerStats] = useState({ userName: playerData?.userName || "Fetching..." });
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -66,10 +69,10 @@ export default function PlayPage() {
     }
   };
 
-  const submitAnswer = async (e) => { 
+  const submitAnswer = async (option) => { 
     setIsLoading(true);
     try {
-      const { data } = await submitQuizAnswer(roomId, quiz?.data?.id, { answer: e.target.value, userId });
+      const { data } = await submitQuizAnswer(roomId, quiz?.data?.id, { answer: option, userId });
       setQuiz({ data: { question: "",id:"", options: [] }, messsage: data?.message });
     }catch(err) { 
       console.log({err});
@@ -79,19 +82,24 @@ export default function PlayPage() {
   }
 
   return (
-    <div className="mt-4 text-gray-50">
+    <div className="relative mt-4 text-gray-50">
       <div className="flex flex-col items-center text-lg md:text-2xl">
         <h3>
-          Player: <b>{playerStats?.userName}</b>
+          Player : <b>{playerStats?.userName}</b>
         </h3>
         <br />
         <br />
-        
+
+        {quiz?.messsage && <div className="flex flex-col items-center justify-center" style={{height:'calc(100vh - 300px)'}}>
+          <FadeLoader color="#6366F1" />
+          <h2 className="p-2 px-4 text-sm text-center md:text-lg">{quiz?.messsage}</h2>
+        </div>}
+
         {!!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} postAnswer={submitAnswer} />}
+  
+        {isLoading && <FadeLoader color="#6366F1" />}
 
-        {isLoading && <FadeLoader color="#36d7b7" />}
-
-        <h2 className="p-2 text-sm">{quiz?.messsage}</h2>
+       
       </div>
     </div>
   );

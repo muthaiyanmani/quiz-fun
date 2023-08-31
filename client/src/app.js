@@ -22,6 +22,8 @@ export default function App() {
   isUserLoggedIn = true;
   return (
     <>
+      
+      <h1 className="my-4 text-2xl font-bold text-center text-transparent text-white from-10% via-30% bg-clip-text bg-gradient-to-r from-indigo-400 to-100% to-indigo-900 md:text-4xl">Quiz.Fun</h1>
       <Routes>
         <Route path="/" index element={<HomePage />} />
         <Route path="/play/:roomId/:userId" element={<PlayPage />} />

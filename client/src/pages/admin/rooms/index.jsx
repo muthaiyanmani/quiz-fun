@@ -59,7 +59,7 @@ export default function RoomsPage() {
     try {
       const datastore = window.catalyst.table.tableId("Rooms");
       const response = await datastore.addRow([
-        { NAME: roomName, CREATEDBY: userDetails.email_id }
+        { NAME: roomName }
       ]);
       const isSuccess = response.status >= 200 && response.status < 300;
       const data = response.content[0];

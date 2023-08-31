@@ -2,25 +2,30 @@ import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuestions } from "../../../context/questions";
+import { useLeaderboard } from "../../../context/leaderboard";
 
-const statsOptions = [
-  { name: "Room Name", key:"roomName", value: "Fetching.." },
-  { name: "Number of Players",key:"players", value: "Fetching.." },
-  { name: "Number of Questions",key:"questions", value: "Fetching.." }
-];
 
 export default function StartScreen() {
 
-  const [stats, setStats] = useState(statsOptions);
+  const { getLeaderboard, fetchLeaderboard } = useLeaderboard();
   const { roomId } = useParams();
-  
-  const { getAllQuestions } = useQuestions();
+
+  const players = getLeaderboard() || [];
+  const { getAllQuestions, getRoomDetails } = useQuestions();
   const questions = getAllQuestions() || [];
+  const roomDetails = getRoomDetails() || {};
+
+  const stats = [
+    { name: "Room Name", key:"roomName", value: roomDetails?.name || "Fetching.." },
+    { name: "Number of Players",key:"players", value: players?.length || "Fetching.." },
+    { name: "Number of Questions", key: "questions", value: questions?.length || "Fetching.." },
+    { name: "Status", key: "isCompleted", value: Object.keys(roomDetails).length ? (roomDetails?.isCompleted ? "Completed" : "Not Completed") : "Fetching.." }
+  ];
   return (
     <div className="flex flex-col items-center justify-center p-4 mx-4 border-2 border-gray-600 rounded-lg">
       <div className="m-8 bg-gray-900 ">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
               <div
                 key={stat.name}

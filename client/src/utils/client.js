@@ -24,6 +24,17 @@ const submitQuizAnswer = async (roomId, questionId, reqBody) => {
     return await axios.post(`/server/quiz_fun/room/${roomId}/question/${questionId}/quiz`, reqBody);
 }
 
+const getRoomData = async (roomId) => { 
+    try {
+        const resp = await window.catalyst.ZCatalystQL.executeQuery(`Select * from Rooms where Rooms.ROWID=${roomId}`);
+        const data = resp.content || [];
+        const roomDetails = data.map((item) => ({ id: item.Rooms.ROWID, name: item.Rooms.NAME, isCompleted: item.Rooms.ISCOMPLETED }))[0];
+        return roomDetails;
+    }catch(err) { 
+        console.log({err});
+    }
+}
+
 const updateCurrentQuestion = async (roomId, questionId) => { 
     const updateQuery = `Update Questions set ISACTIVE=false where Questions.ROOMID=${roomId}`;
     try {
@@ -47,6 +58,15 @@ const getLeaderboardStats = async (roomId, questionId) => {
     } catch (e) {
       
     }
-  }
+}
+  
+const updateRoomStatus = async (roomId) => { 
+    const query = `UPDATE Rooms set ISCOMPLETED=true where ROWID=${roomId}`;
+    try {
+        await window.catalyst.ZCatalystQL.executeQuery(query);
+    }catch(err) { 
+        console.log({err});
+    }
+}
 
-export { createPlayer, getPlayerDetails, updatePlayerStatus, getQuestions, fetchCurrentQuestion, submitQuizAnswer, updateCurrentQuestion,getLeaderboardStats };
+export { createPlayer, getPlayerDetails, updatePlayerStatus, getQuestions, fetchCurrentQuestion, submitQuizAnswer, updateCurrentQuestion,getLeaderboardStats,updateRoomStatus, getRoomData };

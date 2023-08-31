@@ -20,8 +20,6 @@ export default function RoomsPage() {
       const response = await datastore.getPagedRows({ max_rows: 100 });
 
       let rooms = response.content || [];
-
-      console.log(rooms);
       rooms = rooms.map(({ NAME, ROWID, CREATEDBY, CREATEDTIME,LEVEL }) => ({
         id: ROWID,
         name: NAME,

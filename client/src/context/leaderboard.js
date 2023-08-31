@@ -20,7 +20,6 @@ const LeaderboardProvider = ({ children }) => {
     const { roomId, questionId } = useParams();
     
     const fetchLeaderboard = async () => {
-        console.log("fecthinggg");
         const leaderboard = await getLeaderboardStats(roomId, questionId);
         dispatch({ type: 'GET_LEADERBOARD', payload: leaderboard });
     }

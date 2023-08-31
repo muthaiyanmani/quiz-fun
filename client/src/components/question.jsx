@@ -7,22 +7,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import QuizOptions from "./options";
 import { updateCurrentQuestion } from "../utils/client";
+import { useLeaderboard } from "../context/leaderboard";
 
-export default function QuestionCard() {
+export default function QuestionCard({updateLeaderboard}) {
   const { getCurrentQuestion, getAllQuestions } = useQuestions();
   const navigate = useNavigate();
-  const { roomId ,questionId } = useParams();
+  const { roomId, questionId } = useParams();
+  const { getLeaderboard, fetchLeaderboard } = useLeaderboard();
 
   const quiz =getCurrentQuestion();
   const questions = getAllQuestions() || [];
   const hasPrevious = quiz?.index > 1;
   const hasNext = quiz?.index < questions.length;
 
-
   useEffect(() => {
     updateCurrentQuestion(roomId, questionId);
     return () => { 
-
+      fetchLeaderboard();
     }
   }, [questionId]);
 

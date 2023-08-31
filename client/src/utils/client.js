@@ -34,4 +34,19 @@ const updateCurrentQuestion = async (roomId, questionId) => {
     }
 }
 
-export { createPlayer, getPlayerDetails, updatePlayerStatus, getQuestions, fetchCurrentQuestion, submitQuizAnswer, updateCurrentQuestion };
+const getLeaderboardStats = async (roomId, questionId) => { 
+    // TODO: Need to add roomid criteria;
+    const query = `SELECT sum(NOOFPEOPLE), AnsweredQuiz.PLAYERID,Players.NAME FROM Answers INNER JOIN AnsweredQuiz ON Answers.ROWID=AnsweredQuiz.ANSWERID INNER JOIN Players ON AnsweredQuiz.PLAYERID=Players.ROWID GROUP BY AnsweredQuiz.PLAYERID,Players.NAME`;
+    try {
+      const resp = await window.catalyst.ZCatalystQL.executeQuery(query);
+      const data = resp.content || [];
+        const leaderboardData = data
+            .map((item) => ({ id: item.AnsweredQuiz?.PLAYERID, name: item?.Players?.NAME, score: parseInt(item?.Answers?.NOOFPEOPLE) }))
+            .sort((a, b) => b.score - a.score);
+      return leaderboardData;
+    } catch (e) {
+      
+    }
+  }
+
+export { createPlayer, getPlayerDetails, updatePlayerStatus, getQuestions, fetchCurrentQuestion, submitQuizAnswer, updateCurrentQuestion,getLeaderboardStats };

@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import StartScreen from "./pages/admin/dashboard/start-screen";
 import QuestionCard from "./components/question";
 import { QuestionProvider } from "./context/questions";
+import { LeaderboardProvider } from "./context/leaderboard";
 
 export default function App() {
   const { getUserDetails } = useUser();
@@ -39,9 +40,11 @@ export default function App() {
           element={
             <ProtectedRoute isLoggedIn={isUserLoggedIn}>
               <QuestionProvider>
-                <DashboardPage>
-                  <StartScreen />
-                </DashboardPage>
+                <LeaderboardProvider>
+                  <DashboardPage>
+                    <StartScreen />
+                  </DashboardPage>
+                </LeaderboardProvider>
               </QuestionProvider>
             </ProtectedRoute>
           }
@@ -51,9 +54,11 @@ export default function App() {
           element={
             <ProtectedRoute isLoggedIn={isUserLoggedIn}>
               <QuestionProvider>
-                <DashboardPage>
-                  <QuestionCard />
-                </DashboardPage>
+                <LeaderboardProvider>
+                  <DashboardPage>
+                    <QuestionCard />
+                  </DashboardPage>
+                </LeaderboardProvider>
               </QuestionProvider>
             </ProtectedRoute>
           }

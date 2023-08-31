@@ -1,11 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, useParams } from "react-router-dom";
-import StartScreen from "./start-screen";
-import QuestionCard from "../../../components/question";
-import { getQuestions } from "../../../utils/client";
-import { useQuestions } from "../../../context/questions";
+import { Link } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLeaderboard } from "../../../context/leaderboard";
 
 const activityItems = [
   {
@@ -25,9 +23,12 @@ const activityItems = [
 
 export default function DashboardPage({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { getAllQuestions } = useQuestions();
-  const questions = getAllQuestions();
-  console.log(questions);
+  const { getLeaderboard, fetchLeaderboard } = useLeaderboard();
+  const players = getLeaderboard() || [];
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, []);
 
   return (
     <>
@@ -115,45 +116,38 @@ export default function DashboardPage({ children }) {
           {/* Activity feed */}
           <aside className="mt-3 bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
             <header className="flex items-center justify-between px-4 py-4 border-b border-white/5 sm:px-6 sm:py-6 lg:px-8">
-              <h2 className="text-base font-semibold leading-7 text-white">
+              <h2 className="text-base font-semibold leading-7 text-indigo-600">
                 Activity feed
               </h2>
-              <a
-                href="#"
-                className="text-sm font-semibold leading-6 text-indigo-400"
-              >
-                View all
-              </a>
             </header>
+
             <ul role="list" className="divide-y divide-white/5">
-              {activityItems.map((item) => (
-                <li key={item.commit} className="px-4 py-4 sm:px-6 lg:px-8">
-                  <div className="flex items-center gap-x-3">
-                    <img
-                      src={item.user.imageUrl}
-                      alt=""
-                      className="flex-none w-6 h-6 bg-gray-800 rounded-full"
-                    />
-                    <h3 className="flex-auto text-sm font-semibold leading-6 text-white truncate">
-                      {item.user.name}
-                    </h3>
-                    <time
-                      dateTime={item.dateTime}
-                      className="flex-none text-xs text-gray-600"
+              <AnimatePresence>
+                {players?.length ? (
+                  players.map((item, index) => (
+                    <motion.li
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      key={item.id}
+                      className="px-4 py-4 sm:px-6 lg:px-8"
                     >
-                      {item.date}
-                    </time>
-                  </div>
-                  <p className="mt-3 text-sm text-gray-500 truncate">
-                    Pushed to{" "}
-                    <span className="text-gray-400">{item.projectName}</span> (
-                    <span className="font-mono text-gray-400">
-                      {item.commit}
-                    </span>{" "}
-                    on <span className="text-gray-400">{item.branch}</span>)
-                  </p>
-                </li>
-              ))}
+                      <div className="flex items-center gap-x-3">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
+                          {item?.name.toUpperCase().charAt(0)}
+                        </span>
+                        <h3 className="flex-auto text-sm font-semibold leading-6 text-white truncate">
+                          {item?.name}
+                        </h3>
+                        <span className="text-white">{item.score}</span>
+                      </div>
+                    </motion.li>
+                  ))
+                ) : (
+                  <p className="text-white">Quiz not started yet.</p>
+                )}
+              </AnimatePresence>
             </ul>
           </aside>
         </div>

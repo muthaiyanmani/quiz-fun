@@ -89,10 +89,7 @@ export default function DashboardPage({ children }) {
         <div className="">
           <main className="lg:pr-96">
             <header className="flex items-center justify-between px-4 py-4 border-b border-white/5 sm:px-6 sm:py-6 lg:px-8">
-              <Link
-                to="/"
-                className="flex items-center justify-center gap-2 mb-2"
-              >
+              <Link to="/" className="flex items-center justify-center gap-2 ">
                 <span className="block text-2xl font-bold text-transparent md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
                   QuizMe.Fun
                 </span>

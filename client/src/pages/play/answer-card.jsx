@@ -8,7 +8,6 @@ function classNames(...classes) {
 }
 
 export default function AnswerCard({ quiz, postAnswer }) {
-  const [selectedMailingLists, setSelectedMailingLists] = useState(null);
   return (
     <div className="p-4 px-8 md:p-8 quiz-card">
       <p className="">{quiz?.question}</p>

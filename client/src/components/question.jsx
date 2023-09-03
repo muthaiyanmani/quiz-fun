@@ -81,7 +81,7 @@ export default function QuestionCard({ updateLeaderboard }) {
 
           <div className="mt-10 space-y-10">
             <fieldset>
-              <legend className="text-xl font-semibold leading-6 text-white md:text-2xl lg:text-6xl">
+              <legend className="text-xl font-semibold leading-6 text-white md:text-2xl lg:text-4xl">
                 {quiz?.question}
               </legend>
               <br />

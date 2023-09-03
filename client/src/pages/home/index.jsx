@@ -53,13 +53,13 @@ export default function HomePage() {
       <img className="stacked-blob-2" src={gradientBlob1} alt="" />
       <div className="flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8 login-box">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          {/* <h1
-            className="text-lg font-bold leading-9 tracking-tight text-center text-white md:text-3xl"
-            to={"/"}
-          >
-            Quizme.fun
-          </h1> */}
-          <h2 className="mt-10 text-2xl font-bold leading-9 tracking-tight text-center text-white">
+        <Link to="/" className="flex items-center justify-center gap-2 pt-5">
+         
+          <span className="block text-2xl font-bold text-transparent md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
+            QuizMe.Fun
+          </span>
+        </Link>
+          <h2 className="mt-4 text-2xl font-bold leading-9 tracking-tight text-center text-white">
             Join a room to play quiz.
           </h2>
         </div>

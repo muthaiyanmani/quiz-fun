@@ -17,11 +17,10 @@ export default function App() {
   const { pathname } = useLocation();
   const isHomePage = pathname === "/";
   return (
-    <>
+    <main className="w-full">
       {!isHomePage && (
-        <Link to="/" className="flex items-center justify-center gap-2 pt-5">
-          <img src={logo} alt="" />
-          <span className="block mt-2 text-2xl font-bold text-transparent md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
+        <Link to="/" className="flex items-center justify-center gap-2 mb-2">
+          <span className="block text-2xl font-bold text-transparent md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
             QuizMe.Fun
           </span>
         </Link>
@@ -76,6 +75,6 @@ export default function App() {
 
         <Route path="/admin/signin" element={<SignInPage />} />
       </Routes>
-    </>
+    </main>
   );
 }

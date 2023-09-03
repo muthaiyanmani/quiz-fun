@@ -1,6 +1,7 @@
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import quizBG from "../../../../client/public/assets/quiz.png"
 
 
 function classNames(...classes) {
@@ -10,6 +11,9 @@ function classNames(...classes) {
 export default function AnswerCard({ quiz, postAnswer }) {
   const [selectedMailingLists, setSelectedMailingLists] = useState(null);
   return (
+    <>
+    <img className="quiz-bg" src={quizBG} alt="" />
+    <img className="quiz-bg1" src={quizBG} alt="" />
     <div className="quiz-card">
       <p className="">{quiz?.question}</p>
      
@@ -69,5 +73,6 @@ export default function AnswerCard({ quiz, postAnswer }) {
         </div>
       </fieldset>
     </div>
+    </>
   );
 }

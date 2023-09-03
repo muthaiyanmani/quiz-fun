@@ -41,7 +41,7 @@
   max-width: 900px;
 }
 
-.activity-feed {
+.activity-feed, .quiz-card {
   background: rgba(17, 24, 39, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(13.5px);
@@ -84,8 +84,12 @@
 
 
 .quiz-card {
-  -webkit-animation: fade-in-fwd 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  display: flex;
+  height: 60vh;
   animation: fade-in-fwd 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  padding: 20px;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* animations */
@@ -154,7 +158,16 @@
   .stacked-blob-2 {
     left: 55vw;
   }
+  .activity-feed {
+    margin-bottom: 50px;
+  }
   
+}
+
+@media (min-width: 993px) {
+  .activity-feed  {
+    top: 0 !important; /* Set the top position to 0 */
+  }
 }
 
 

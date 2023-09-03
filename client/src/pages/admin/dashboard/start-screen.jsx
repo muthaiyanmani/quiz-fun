@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuestions } from "../../../context/questions";
 import { useLeaderboard } from "../../../context/leaderboard";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 export default function StartScreen() {
   const { getLeaderboard, fetchLeaderboard } = useLeaderboard();
   const { roomId } = useParams();
   const navigate = useNavigate();
+  const { width, height } = useWindowSize();
 
   const players = getLeaderboard() || [];
   const { getAllQuestions, getRoomDetails } = useQuestions();
@@ -40,8 +43,10 @@ export default function StartScreen() {
         : "Fetching.."
     }
   ];
+
   return (
     <>
+      {roomDetails?.isCompleted && <Confetti width={width} height={height} />}
       <div className="flex flex-col items-center justify-center p-4 border-2 border-gray-600 rounded-lg md:mx-4 stats-box">
         <div className="m-8 bg-gray-900 ">
           <div className="mx-auto max-w-7xl">
@@ -58,29 +63,28 @@ export default function StartScreen() {
                     <span className="text-xl font-semibold tracking-tight text-white">
                       {stat.value}
                     </span>
-                  
                   </p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-
-        <div className="text-white">
-          <button
-            type="button"
-            disabled={roomDetails?.isCompleted}
-            onClick={() =>
-              navigate(`/admin/room/${roomId}/quiz/${questions[0]?.id}/view`)
-            }
-            className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-indigo-900"
-          >
-            <CheckCircleIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-            Start Quiz
-          </button>
-        </div>
+        {!roomDetails?.isCompleted && (
+          <div className="text-white">
+            <button
+              type="button"
+              disabled={roomDetails?.isCompleted}
+              onClick={() =>
+                navigate(`/admin/room/${roomId}/quiz/${questions[0]?.id}/view`)
+              }
+              className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-indigo-900"
+            >
+              <CheckCircleIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
+              Start Quiz
+            </button>
+          </div>
+        )}
       </div>
-     
     </>
   );
 }

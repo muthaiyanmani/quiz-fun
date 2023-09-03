@@ -17,10 +17,10 @@ export default function App() {
   const { pathname } = useLocation();
   const isHomePage = pathname === "/" || pathname.includes('/dashboard') || pathname.includes('/quiz/');
   return (
-    <main style={{"display": "contents"}} className="w-full">
+    <main className="w-full">
       {!isHomePage && (
         <Link to="/" className="flex items-center justify-center gap-2 mb-2">
-          <span className="quizme-logo block text-2xl font-bold text-transparent md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
+          <span className="block text-2xl font-bold text-transparent quizme-logo md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
             <img src={logo} alt="" />
             QuizMe.Fun
           </span>

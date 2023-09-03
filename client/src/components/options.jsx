@@ -1,6 +1,5 @@
 
 export default function QuizOptions({ options }) {
-  console.log({options});
   return (
     <fieldset>
       <legend className="sr-only">Options</legend>

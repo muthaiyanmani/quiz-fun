@@ -1,6 +1,8 @@
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
+  ChartBarIcon,
+  ChartPieIcon,
   CheckCircleIcon
 } from "@heroicons/react/24/outline";
 import { useQuestions } from "../context/questions";
@@ -19,6 +21,8 @@ export default function QuestionCard({ updateLeaderboard }) {
   const { roomId, questionId } = useParams();
   const { getLeaderboard, fetchLeaderboard } = useLeaderboard();
   const [openModal, setOpenModal] = useState(false);
+  const [summaryModal, setSummaryModal] = useState(false);
+  const [questionSummary, setQuestionSummary] = useState([]);
   const { width, height } = useWindowSize();
   const players = getLeaderboard() || [];
 
@@ -71,6 +75,46 @@ export default function QuestionCard({ updateLeaderboard }) {
     navigate(`/`);
   };
 
+  const getQuestionSummary = async () => {
+    setSummaryModal(true);
+    try {
+      const resp = await window.catalyst.ZCatalystQL.executeQuery(
+        `Select NOOFPEOPLE,ANSWER from Answers where QUESTIONID=${questionId}`
+      );
+      let data = resp?.content || [];
+      data = data.map((item) => item?.Answers);
+      
+      const currentQuestion = getCurrentQuestion();
+      const totalResponses = data.reduce((acc, item) => acc + parseInt(item?.NOOFPEOPLE), 0);
+      let optionsSummary =
+        data.map((item) => ({
+          option: item?.ANSWER,
+          count: parseInt(item?.NOOFPEOPLE),
+          percentage: ((parseInt(item?.NOOFPEOPLE) / totalResponses) * 100).toFixed(2) + "%"
+        })) || [];
+      optionsSummary = optionsSummary.sort((a, b) => b.count - a.count);
+      setQuestionSummary(optionsSummary);
+
+    //   if (optionsSummary.length) {
+    //     const opt = optionsSummary[0];
+    //     const result = Object.keys(currentQuestion).map((key) => {
+    //       if (opt.option === currentQuestion[key]) {
+    //         return { label: key, value: parseInt(opt.count) };
+    //       }
+    //     })
+    //     console.log(result);
+      //  }
+  
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const closeSummary = () => { 
+    setSummaryModal(false);
+    setQuestionSummary([]);
+  }
+
   return (
     <form className="p-4 text-white">
       <div className="space-y-12">
@@ -92,8 +136,31 @@ export default function QuestionCard({ updateLeaderboard }) {
           </div>
         </div>
       </div>
-      
-      {openModal &&  <Confetti width={width} height={height} />}
+
+      {summaryModal && (
+        <Modal open={summaryModal} setOpen={setSummaryModal}>
+          <h1 className="text-lg">Question Summary</h1>
+         <br/>
+          <ul>
+            {questionSummary.map((item, index) => (
+              
+                <li className="flex flex-row items-center justify-between py-2 text-md" key={index}>
+                {item?.option} : <b>{item?.percentage}</b> 
+              </li>
+            ))}
+          </ul>
+          <br/>
+          <button
+            type="button"
+            onClick={closeSummary}
+              className="float-right px-4 py-2 text-sm text-center text-gray-900 bg-white rounded-md shadow-sm flex-end decoration- ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0"
+            >
+              Close
+            </button>
+        </Modal>
+      )}
+
+      {openModal && <Confetti width={width} height={height} />}
 
       <div className="flex items-center justify-around mt-6 gap-x-6">
         <div className="text-white">
@@ -101,23 +168,41 @@ export default function QuestionCard({ updateLeaderboard }) {
             type="button"
             onClick={() => moveToPreviousQuestion()}
             disabled={!hasPrevious}
-            className="inline-flex w-40 items-center justify-center gap-x-2 rounded-md bg-indigo-600 px-4 py-2.5 text-md text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-900 disabled:cursor-not-allowed"
+            className="inline-flex w-32 md:w-40 items-center justify-center gap-x-2 rounded-md bg-indigo-600 p-2 md:px-4 md:py-2.5 text-md text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-900 disabled:cursor-not-allowed"
           >
-            <ArrowLeftCircleIcon className="w-8 h-8" aria-hidden="true" />
+            <ArrowLeftCircleIcon
+              className="w-4 h-4 md:w-8 md:h-8"
+              aria-hidden="true"
+            />
             Previous
           </button>
         </div>
+
+        <div className="text-white">
+          <button
+            type="button"
+            onClick={getQuestionSummary}
+            className="inline-flex w-32 md:w-40 items-center justify-center gap-x-2 rounded-md bg-indigo-600 p-2 md:px-4 md:py-2.5 text-md text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-900 disabled:cursor-not-allowed"
+          >
+            <ChartPieIcon
+              className="w-4 h-4 md:w-8 md:h-8"
+              aria-hidden="true"
+            />
+            Summary
+          </button>
+        </div>
+
         <div className="text-white">
           <button
             type="button"
             onClick={() => moveToNextQuestion()}
-            className="inline-flex w-40  items-center justify-center gap-x-2 rounded-md bg-indigo-600 px-4 py-2.5 text-md text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-900 disabled:cursor-not-allowed"
+            className="inline-flex w-32 md:w-40  items-center justify-center gap-x-2 rounded-md bg-indigo-600 p-2 md:px-4 md:py-2.5 text-md text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-900 disabled:cursor-not-allowed"
           >
             {hasNext ? (
               <>
                 {" "}
                 <ArrowRightCircleIcon
-                  className="w-8 h-8"
+                  className="w-4 h-4 md:w-8 md:h-8"
                   aria-hidden="true"
                 />{" "}
                 Next{" "}
@@ -125,7 +210,10 @@ export default function QuestionCard({ updateLeaderboard }) {
             ) : (
               <>
                 {" "}
-                <CheckCircleIcon className="w-8 h-8" aria-hidden="true" />{" "}
+                <CheckCircleIcon
+                  className="w-4 h-4 md:w-8 md:h-8"
+                  aria-hidden="true"
+                />{" "}
                 Finish{" "}
               </>
             )}

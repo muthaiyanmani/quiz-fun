@@ -9,7 +9,6 @@ function classNames(...classes) {
 }
 
 export default function AnswerCard({ quiz, postAnswer }) {
-  const [selectedMailingLists, setSelectedMailingLists] = useState(null);
   return (
     <>
     <div className="p-10 quiz-card">

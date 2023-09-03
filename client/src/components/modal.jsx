@@ -9,7 +9,7 @@ export default function Modal({ open, setOpen, children }) {
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-10 "
         initialFocus={cancelButtonRef}
         onClose={setOpen}
       >
@@ -36,7 +36,7 @@ export default function Modal({ open, setOpen, children }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-md sm:p-6">
+              <Dialog.Panel className="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-gray-900 rounded-lg shadow-xl text-gray-50 sm:my-8 sm:w-full sm:max-w-md sm:p-6">
                {children}
               </Dialog.Panel>
             </Transition.Child>

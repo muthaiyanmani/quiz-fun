@@ -88,7 +88,7 @@ export default function RoomsPage() {
     getRooms();
   }, []);
   return (
-    <div className="py-4">
+    <div className="vw100 vh100 py-4">
       <Table
         header={tableHeader}
         data={rooms}

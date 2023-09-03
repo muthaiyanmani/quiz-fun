@@ -121,7 +121,7 @@ export default function HomePage() {
             </div>
           </form>
 
-          <p className="mt-10 text-sm text-center text-gray-300">
+          <p className="mt-10 text-sm text-center text-gray-400">
             Are you an admin?{" "}
             <Link
               to="/admin/rooms"
@@ -132,7 +132,7 @@ export default function HomePage() {
             <br /> <br />
             {previousData && (
               <Link
-                className="flex items-center justify-center gap-1"
+                className="mb-10 flex items-center justify-center gap-1"
                 to={`/play/${previousData.roomId}/${previousData.userId}`}
               >
                 Your recently accessed room : <span className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300">{previousData.roomName}</span> {" "}

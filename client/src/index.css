@@ -160,7 +160,7 @@
 
 .quiz-bg ,.quiz-bg1 {
   position: absolute;
-  left: -50%;
+  left: -7%;
   top: 45%;
   -webkit-animation: rotate-center 50s linear infinite both;
   animation: rotate-center 50s linear infinite both;

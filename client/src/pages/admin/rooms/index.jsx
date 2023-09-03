@@ -41,8 +41,7 @@ export default function RoomsPage() {
   const tableHeader = [
     { label: "Room ID", key: "id" },
     { label: "Name", key: "name" },
-    { label: "Created By", key: "createdBy" },
-    { label: "Created At", key: "createdAt" },
+    { label: "Created Time", key: "createdAt" },
     { label: "Link", key: "link" }
   ];
 
@@ -127,14 +126,14 @@ export default function RoomsPage() {
         <div className="gap-6 sm:flex sm:flex-row-reverse sm:px-6">
           <button
             type="submit"
-            className="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto"
+            className="inline-flex justify-center w-full px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 sm:ml-3 sm:w-auto"
           >
             Create
           </button>
           <button
             type="button"
             onClick={() => setModalOpen(false)}
-            className="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+            className="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-medium text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
           >
             Close
           </button>

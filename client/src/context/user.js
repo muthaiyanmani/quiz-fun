@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
 import { useContext, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext(null);
 
@@ -17,6 +17,7 @@ const reducer = (state, action) => {
 
 const UserProvider = ({ children }) => { 
     const [state, dispatch] = useReducer(reducer, null);
+    const navigate = useNavigate();
 
     useEffect(() => { 
         const getUser = async () => { 
@@ -24,7 +25,7 @@ const UserProvider = ({ children }) => {
                 const userDetails = await window.catalyst.auth.isUserAuthenticated();
                 return userDetails?.content ? loginUser(userDetails.content) : null;
             } catch (err) { 
-                return null;
+                navigate('/admin/signin');
             }
         }
         getUser();

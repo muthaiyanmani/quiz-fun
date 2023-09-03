@@ -81,7 +81,7 @@ export default function QuestionCard({ updateLeaderboard }) {
 
           <div className="mt-10 space-y-10">
             <fieldset>
-              <legend className="text-xl font-semibold leading-6 text-white md:text-2xl lg:text-6xl">
+              <legend className="text-xl font-semibold leading-6 text-white md:text-2xl lg:text-4xl">
                 {quiz?.question}
               </legend>
               <br />
@@ -92,6 +92,8 @@ export default function QuestionCard({ updateLeaderboard }) {
           </div>
         </div>
       </div>
+      
+      {openModal &&  <Confetti width={width} height={height} />}
 
       <div className="flex items-center justify-around mt-6 gap-x-6">
         <div className="text-white">

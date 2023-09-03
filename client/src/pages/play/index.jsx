@@ -71,6 +71,7 @@ export default function PlayPage() {
   };
 
   const submitAnswer = async (option) => { 
+    debugger;
     setIsLoading(true);
     try {
       const { data } = await submitQuizAnswer(roomId, quiz?.data?.id, { answer: option, userId });
@@ -97,7 +98,7 @@ export default function PlayPage() {
           <h2 className="p-2 px-4 text-sm text-center md:text-lg">{quiz?.messsage}</h2>
         </div>}
 
-        {!!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} postAnswer={submitAnswer} />}
+        {!isLoading && !!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} postAnswer={submitAnswer} />}
   
         {/* {isLoading && <FadeLoader color="#6366F1" />} */}
         {isLoading && <Customloader />}

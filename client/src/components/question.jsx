@@ -246,7 +246,7 @@ export default function QuestionCard({ updateLeaderboard }) {
             <button
               type="button"
               onClick={completeQuiz}
-              className="w-40 px-3 py-2 text-sm font-semibold text-center text-gray-900 bg-white rounded-md shadow-sm decoration- ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0"
+              className="w-40 px-3 py-2 text-sm text-center text-gray-900 bg-white rounded-md shadow-sm decoration- ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0"
             >
               End Quiz
             </button>

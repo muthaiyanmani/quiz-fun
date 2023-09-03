@@ -43,7 +43,7 @@
 }
 
 .activity-feed,
-.quiz-card {
+.quiz-card, table {
   background: rgba(17, 24, 39, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(13.5px);

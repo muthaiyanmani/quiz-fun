@@ -15,7 +15,7 @@ import logo from "/public/assets/logo.png";
 
 export default function App() {
   const { pathname } = useLocation();
-  const isHomePage = pathname === "/";
+  const isHomePage = pathname === "/" || pathname.includes('/dashboard');
   return (
     <main className="w-full">
       {!isHomePage && (

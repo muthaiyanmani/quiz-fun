@@ -10,7 +10,7 @@ function classNames(...classes) {
 export default function AnswerCard({ quiz, postAnswer }) {
   const [selectedMailingLists, setSelectedMailingLists] = useState(null);
   return (
-    <div className="quiz-card">
+    <div className="p-4 px-8 md:p-8 quiz-card">
       <p className="">{quiz?.question}</p>
      
       <fieldset className="mt-4">
@@ -18,7 +18,7 @@ export default function AnswerCard({ quiz, postAnswer }) {
           <RadioGroup
             onChange={postAnswer}
           >
-            <div className="grid grid-cols-1 mt-4 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+            <div className="grid grid-cols-1 mt-4 gap-y-6 md:gap-y-12 sm:grid-cols-2 sm:gap-x-8">
               {quiz?.options?.map((item, index) => (
                 <RadioGroup.Option
                   key={index}

@@ -21,12 +21,12 @@ export default function StartScreen() {
       value: roomDetails?.name || "Fetching.."
     },
     {
-      name: "Number of Players",
+      name: "No. of Players",
       key: "players",
       value: players?.length
     },
     {
-      name: "Number of Questions",
+      name: "No. of Questions",
       key: "questions",
       value: questions?.length || "Fetching.."
     },
@@ -36,13 +36,13 @@ export default function StartScreen() {
       value: Object.keys(roomDetails).length
         ? roomDetails?.isCompleted
           ? "Completed"
-          : "Not Completed"
+          : "Not Started"
         : "Fetching.."
     }
   ];
   return (
     <>
-      <div className="stats-box flex flex-col items-center justify-center p-4 mx-4 border-2 border-gray-600 rounded-lg">
+      <div className="flex flex-col items-center justify-center p-4 border-2 border-gray-600 rounded-lg md:mx-4 stats-box">
         <div className="m-8 bg-gray-900 ">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2 lg:grid-cols-4">
@@ -55,12 +55,10 @@ export default function StartScreen() {
                     {stat.name}
                   </p>
                   <p className="flex items-baseline mt-2 gap-x-2">
-                    <span className="text-3xl font-semibold tracking-tight text-white">
+                    <span className="text-xl font-semibold tracking-tight text-white">
                       {stat.value}
                     </span>
-                    {stat.unit ? (
-                      <span className="text-sm text-gray-400">{stat.unit}</span>
-                    ) : null}
+                  
                   </p>
                 </div>
               ))}

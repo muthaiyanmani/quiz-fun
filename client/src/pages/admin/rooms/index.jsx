@@ -41,7 +41,6 @@ export default function RoomsPage() {
   const tableHeader = [
     { label: "Room ID", key: "id" },
     { label: "Name", key: "name" },
-    { label: "Created By", key: "createdBy" },
     { label: "Created At", key: "createdAt" },
     { label: "Link", key: "link" }
   ];

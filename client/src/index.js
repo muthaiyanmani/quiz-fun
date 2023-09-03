@@ -10,9 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
   <HashRouter>
-    <UserProvider>
       <App />
-    </UserProvider>
     <ToastContainer autoClose={3000} />
   </HashRouter>,
   document.getElementById("root")

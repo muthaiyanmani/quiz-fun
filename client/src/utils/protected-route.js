@@ -1,8 +1,8 @@
-import { Navigate, Route } from "react-router-dom"
+import { useUser } from "../context/user";
 
-export const ProtectedRoute = ({ children, isLoggedIn }) => {
-    if (isLoggedIn) {
+export const ProtectedRoute = ({ children }) => {
+    const { getUserDetails } = useUser();
+    if (getUserDetails()) {
         return children;
     }
-    return <Navigate to="/admin/signin" replace />
 }

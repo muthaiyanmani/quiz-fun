@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   setData as setDataInLocalStorage,
@@ -12,10 +12,13 @@ import gradientBlob1 from "../../../public/assets/geadient blob1.webp";
 
 
 export default function HomePage() {
+  const [searchParams] = useSearchParams();
+  const roomName = searchParams?.get("room");
   const [data, setData] = useState({
-    roomName: "",
+    roomName: roomName || "",
     userName: ""
   });
+ 
   const [previousData] = useState(getDataFromLocalStorage("playerDetails"));
   const navigate = useNavigate();
 
@@ -49,17 +52,15 @@ export default function HomePage() {
 
   return (
     <>
-      <img className="stacked-blob-1" src={gradientBlob} alt="" />
-      <img className="stacked-blob-2" src={gradientBlob1} alt="" />
-      <div className="flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8 login-box">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="h-full px-2 py-4 mx-auto md:mt-20 md:py-8 lg:px-8 login-box">
+        <div className="">
         <Link to="/" className="flex items-center justify-center gap-2 pt-5">
          
           <span className="block text-2xl font-bold text-transparent md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
             QuizMe.Fun
           </span>
         </Link>
-          <h2 className="mt-4 text-2xl font-bold leading-9 tracking-tight text-center text-white">
+          <h2 className="mt-4 font-medium leading-9 tracking-tight text-center text-white text-md md:text-lg">
             Join a room to play quiz.
           </h2>
         </div>

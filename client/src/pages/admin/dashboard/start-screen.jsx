@@ -42,7 +42,7 @@ export default function StartScreen() {
   ];
   return (
     <>
-      <div className="flex flex-col items-center justify-center p-4 mx-4 border-2 border-gray-600 rounded-lg">
+      <div className="stats-box flex flex-col items-center justify-center p-4 mx-4 border-2 border-gray-600 rounded-lg">
         <div className="m-8 bg-gray-900 ">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2 lg:grid-cols-4">

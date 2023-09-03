@@ -7,8 +7,9 @@ import {
 } from "../../utils/client";
 import { POLLING_INTERVAL } from "../../utils/constants";
 import AnswerCard from "./answer-card";
-import {FadeLoader } from 'react-spinners';
+// import {FadeLoader } from 'react-spinners';
 import { getData } from "../../utils/localstorage";
+import Customloader from "../../components/customloader";
 
 export default function PlayPage() {
   let { roomId, userId } = useParams();
@@ -91,13 +92,15 @@ export default function PlayPage() {
         <br />
 
         {quiz?.messsage && <div className="flex flex-col items-center justify-center" style={{height:'calc(100vh - 300px)'}}>
-          <FadeLoader color="#6366F1" />
+          {/* <FadeLoader color="#6366F1" /> */}
+          <Customloader />
           <h2 className="p-2 px-4 text-sm text-center md:text-lg">{quiz?.messsage}</h2>
         </div>}
 
         {!!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} postAnswer={submitAnswer} />}
   
-        {isLoading && <FadeLoader color="#6366F1" />}
+        {/* {isLoading && <FadeLoader color="#6366F1" />} */}
+        {isLoading && <Customloader />}
 
        
       </div>

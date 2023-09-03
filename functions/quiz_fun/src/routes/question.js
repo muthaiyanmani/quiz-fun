@@ -32,19 +32,16 @@ router.get('/:roomId/user/:userId/question/current', async (req, res) => {
     const app = catalyst.initialize(req);
     const { roomId, userId } = req.params;
 
-    const query = `SELECT ROWID,QUESTION,OPTION_A,OPTION_B,OPTION_C,OPTION_D FROM Questions WHERE ROOMID=${roomId} AND ISACTIVE=true`;
+    const query = `SELECT Questions.ROWID,Questions.OPTION_A,Questions.OPTION_B,Questions.OPTION_C,Questions.OPTION_D,Questions.QUESTION,Rooms.ISCOMPLETED FROM Questions INNER JOIN Rooms ON Questions.ROOMID = Rooms.ROWID WHERE Questions.ROOMID =${roomId} AND Questions.ISACTIVE = true;`;
     try {
-        const question = await app.zcql().executeZCQLQuery(query);
-        let data = question?.map((question) => question.Questions);
-        if (data.length) {
-            data = data.map((quest) => ({ id: quest.ROWID, question: quest.QUESTION, optionA: quest.OPTION_A, optionB: quest.OPTION_B, optionC: quest.OPTION_C, optionD: quest.OPTION_D }));
-
+        const question = await app.zcql().executeZCQLQuery(query) || [];  
+        if (question.length) {
+            const data = question.map((question) => ({ id: question.Questions.ROWID, question: question.Questions.QUESTION, optionA: question.Questions.OPTION_A, optionB: question.Questions.OPTION_B, optionC: question.Questions.OPTION_C, optionD: question.Questions.OPTION_D, isRoomEnded: question.Rooms.ISCOMPLETED }));
             // Checking if the user already answered the question
             const answerQuery = `SELECT ROWID FROM AnsweredQuiz WHERE PLAYERID=${userId} AND QUESTIONID=${data[0]?.id}`;
             const answer = await app.zcql().executeZCQLQuery(answerQuery);
             if (answer.length) {
                 return res.status(202).json({ status: "success", message: "Question has been answered. Waiting for next question." });
-
             }
             return res.status(200).json({ status: "success", data: data[0] });
         } else {

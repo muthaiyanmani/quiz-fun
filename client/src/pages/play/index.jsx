@@ -58,7 +58,7 @@ export default function PlayPage() {
       if (status === 200) {
         const quizOptions = getQuizOptions(data?.data);
         setQuiz({
-          data: { question: data?.data?.question, id: data?.data?.id, options: quizOptions },
+          data: { question: data?.data?.question, id: data?.data?.id, options: quizOptions, isGameEnded: data?.data?.isRoomEnded },
           messsage: ""
         });
       } else {
@@ -71,7 +71,6 @@ export default function PlayPage() {
   };
 
   const submitAnswer = async (option) => { 
-    debugger;
     setIsLoading(true);
     try {
       const { data } = await submitQuizAnswer(roomId, quiz?.data?.id, { answer: option, userId });
@@ -93,10 +92,14 @@ export default function PlayPage() {
         <br />
 
         {quiz?.messsage && <div className="flex flex-col items-center justify-center" style={{height:'calc(100vh - 300px)'}}>
-          {/* <FadeLoader color="#6366F1" /> */}
           <Customloader />
           <h2 className="p-2 px-4 text-sm text-center md:text-lg">{quiz?.messsage}</h2>
         </div>}
+
+        {quiz.data?.isGameEnded && <div className="flex flex-col items-center justify-center" style={{ height: 'calc(100vh - 300px)' }}>
+          <h2 className="p-2 px-4 text-sm text-center md:text-lg">Game Ended</h2>
+        </div>}
+        
 
         {!isLoading && !!quiz?.data?.options?.length && <AnswerCard quiz={quiz?.data} postAnswer={submitAnswer} />}
   

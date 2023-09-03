@@ -7,8 +7,6 @@ import {
 } from "../../utils/localstorage";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { createPlayer } from "../../utils/client";
-import gradientBlob from "../../../public/assets/gradient blob.webp";
-import gradientBlob1 from "../../../public/assets/geadient blob1.webp";
 import logo from "/public/assets/logo.png";
 
 export default function HomePage() {
@@ -52,14 +50,13 @@ export default function HomePage() {
 
   return (
     <>
-    <img className="stacked-blob-1" src={gradientBlob} alt="" />
-    <img className="stacked-blob-2" src={gradientBlob1} alt="" />
+   
       <div className="h-full px-8 py-4 mx-auto md:mt-20 md:py-8 login-box">
         <div className="">
         <Link to="/" className="flex items-center justify-center gap-2 pt-5">
 
-          <span className="quizme-logo block text-2xl font-bold text-transparent md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
-          <img src={logo} alt="" />QuizMe.Fun
+          <span className="block text-2xl font-bold text-transparent quizme-logo md:text-3xl bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 decoration-8">
+          <img  src={logo} alt="" />QuizMe.Fun
           </span>
         </Link>
           <h2 className="mt-4 font-medium leading-9 tracking-tight text-center text-white text-md md:text-lg">
@@ -132,7 +129,7 @@ export default function HomePage() {
             <br /> <br />
             {previousData && (
               <Link
-                className="mb-10 flex items-center justify-center gap-1"
+                className="flex items-center justify-center gap-1 mb-10"
                 to={`/play/${previousData.roomId}/${previousData.userId}`}
               >
                 Your recently accessed room : <span className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300">{previousData.roomName}</span> {" "}

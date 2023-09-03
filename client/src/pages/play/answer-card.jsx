@@ -12,9 +12,7 @@ export default function AnswerCard({ quiz, postAnswer }) {
   const [selectedMailingLists, setSelectedMailingLists] = useState(null);
   return (
     <>
-    <img className="quiz-bg" src={quizBG} alt="" />
-    <img className="quiz-bg1" src={quizBG} alt="" />
-    <div className="quiz-card">
+    <div className="p-10 quiz-card">
       <p className="">{quiz?.question}</p>
      
       <fieldset className="mt-4">

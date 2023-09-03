@@ -53,11 +53,7 @@ export default function Table({ header = [], data = [], meta = {}, showLoader = 
                   <AnimatePresence>
                   {showLoader ? (
                     Array(numberOfRows).fill().map((id, index) => (
-                      <tr key={index}>
-                        <td className="px-3 py-4 animate-pulse" colSpan={header.length}>
                           <SkeletonLoader key={index} noOfColoumns={header.length}/>
-                        </td>
-                      </tr>
                     ))
                   ) : (
                     /* Data Rows */
@@ -90,12 +86,12 @@ export default function Table({ header = [], data = [], meta = {}, showLoader = 
   );
 }
 
-const SkeletonLoader = ({ noOfColumns = 1 }) => (
+const SkeletonLoader = ({ noOfColumns = 4 }) => (
   <tr>
     {Array(noOfColumns).fill().map((id, index) => (
       <td
         key={index}
-        className="px-3 py-4 text-sm text-gray-500 md:text-md whitespace-nowrap skeleton none"
+        className="wfull px-3 py-4 text-sm text-gray-500 md:text-md whitespace-nowrap skeleton none"
       ></td>
     ))}
   </tr>

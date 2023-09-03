@@ -92,6 +92,8 @@ export default function QuestionCard({ updateLeaderboard }) {
           </div>
         </div>
       </div>
+      
+      {openModal &&  <Confetti width={width} height={height} />}
 
       <div className="flex items-center justify-around mt-6 gap-x-6">
         <div className="text-white">

@@ -52,7 +52,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="h-full px-2 py-4 mx-auto md:mt-20 md:py-8 lg:px-8 login-box">
+      <div className="h-full px-8 py-4 mx-auto md:mt-20 md:py-8 login-box">
         <div className="">
         <Link to="/" className="flex items-center justify-center gap-2 pt-5">
          

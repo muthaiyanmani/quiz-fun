@@ -88,7 +88,7 @@ export default function RoomsPage() {
     getRooms();
   }, []);
   return (
-    <div className="vw100 vh100 py-4">
+    <div>
       <Table
         header={tableHeader}
         data={rooms}
@@ -102,7 +102,7 @@ export default function RoomsPage() {
             <div>
               <label
                 htmlFor="roomName"
-                className="text-sm font-medium leading-6 text-gray-900 "
+                className="text-sm font-medium leading-6 "
               >
                 Room Name
               </label>

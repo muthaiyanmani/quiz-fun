@@ -1,7 +1,6 @@
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import quizBG from "../../../../client/public/assets/quiz.png"
 
 
 function classNames(...classes) {
@@ -10,8 +9,7 @@ function classNames(...classes) {
 
 export default function AnswerCard({ quiz, postAnswer }) {
   return (
-    <>
-    <div className="p-10 quiz-card">
+    <div className="p-4 px-8 md:p-8 quiz-card">
       <p className="">{quiz?.question}</p>
      
       <fieldset className="mt-4">
@@ -19,16 +17,16 @@ export default function AnswerCard({ quiz, postAnswer }) {
           <RadioGroup
             onChange={postAnswer}
           >
-            <div className="grid grid-cols-1 mt-4 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+            <div className="grid grid-cols-1 mt-4 gap-y-6 md:gap-y-12 sm:grid-cols-2 sm:gap-x-8">
               {quiz?.options?.map((item, index) => (
                 <RadioGroup.Option
                   key={index}
                   value={item.label}
                   className={({ checked, active }) =>
                     classNames(
-                      checked ? "border-transparent" : "border-gray-300",
+                      "block w-full rounded-md border-0 bg-white/5 text-white shadow-sm ring-1 ring-inset ring-white/10",
                       active ? "border-indigo-600 ring-2 ring-indigo-600" : "",
-                      "relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none"
+                      "relative flex cursor-pointer rounded-lg border bg-white/5 ring-white/10 p-4 shadow-sm focus:outline-none"
                     )
                   }
                 >
@@ -38,7 +36,7 @@ export default function AnswerCard({ quiz, postAnswer }) {
                         <span className="flex flex-col">
                           <RadioGroup.Label
                             as="span"
-                            className="block w-64 text-sm font-medium text-gray-900"
+                            className="block w-64 text-sm font-medium text-gray-50"
                           >
                             {item.label}
                           </RadioGroup.Label>
@@ -70,6 +68,5 @@ export default function AnswerCard({ quiz, postAnswer }) {
         </div>
       </fieldset>
     </div>
-    </>
   );
 }

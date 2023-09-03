@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLeaderboard } from "../../../context/leaderboard";
+import logo from "/public/assets/logo.png"
 
 export default function DashboardPage({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -89,8 +90,9 @@ export default function DashboardPage({ children }) {
           <main className="lg:pr-96">
             <header className="flex items-center justify-between px-4 py-4 border-b border-white/5 sm:px-6 sm:py-6 lg:px-8">
               <Link to="/">
-                <h1 className="text-xl font-semibold leading-7 text-white lg:text-3xl">
-                  Quiz.fun
+                <h1 className="quizme-logo text-xl font-semibold leading-7 text-white lg:text-3xl">
+                  <img src={logo} alt="" />
+                  Quizme.fun
                 </h1>
               </Link>
             </header>

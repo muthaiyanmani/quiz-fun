@@ -11,6 +11,7 @@ import StartScreen from "./pages/admin/dashboard/start-screen";
 import QuestionCard from "./components/question";
 import { QuestionProvider } from "./context/questions";
 import { LeaderboardProvider } from "./context/leaderboard";
+import logo from "/public/assets/logo.png"
 
 export default function App() {
   const { getUserDetails } = useUser();
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <>
       
-      <h1 className="my-4 text-2xl font-bold text-center text-transparent text-white from-10% via-30% bg-clip-text bg-gradient-to-r from-indigo-400 to-100% to-indigo-900 md:text-4xl">Quiz.Fun</h1>
+      <h1 className="quizme-logo my-4 text-2xl font-bold text-center text-transparent text-white from-10% via-30% bg-clip-text bg-gradient-to-r from-indigo-400 to-100% to-indigo-900 md:text-4xl"> <img src={logo} alt="" /> Quizme.Fun</h1>
       <Routes>
         <Route path="/" index element={<HomePage />} />
         <Route path="/play/:roomId/:userId" element={<PlayPage />} />

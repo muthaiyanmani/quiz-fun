@@ -146,9 +146,24 @@
   }
 }
 
+.quizme-logo {
+  display: flex;
+  align-items: center;
+}
+
+.quizme-logo img {
+  width: 75px;
+  margin-right: 10px;
+}
 
 
 /* Media Queries */
+@media (min-width: 641px) {
+  .quiz-card {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
 
 @media (max-width: 992px) {
   .stacked-blob-1 {

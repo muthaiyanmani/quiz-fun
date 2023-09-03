@@ -10,7 +10,7 @@ function classNames(...classes) {
 export default function AnswerCard({ quiz, postAnswer }) {
   const [selectedMailingLists, setSelectedMailingLists] = useState(null);
   return (
-    <div>
+    <div className="quiz-card">
       <p className="">{quiz?.question}</p>
      
       <fieldset className="mt-4">

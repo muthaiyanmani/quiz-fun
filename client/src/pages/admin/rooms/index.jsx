@@ -20,10 +20,10 @@ export default function RoomsPage() {
       const response = await datastore.getPagedRows({ max_rows: 100 });
 
       let rooms = response.content || [];
-      rooms = rooms.map(({ NAME, ROWID, CREATEDBY, CREATEDTIME,LEVEL }) => ({
+      rooms = rooms.map(({ NAME, ROWID, CREATORID, CREATEDTIME,LEVEL }) => ({
         id: ROWID,
         name: NAME,
-        createdBy: CREATEDBY,
+        createdBy: CREATORID,
         createdAt: moment(CREATEDTIME).format("MMMM D, YYYY"),
         link: `/admin/room/${ROWID}/dashboard`
       }));
@@ -69,7 +69,7 @@ export default function RoomsPage() {
           {
             id: data.ROWID,
             name: roomName,
-            createdBy: data.CREATEDBY,
+            createdBy: data.CREATORID,
             createdAt: moment(data.CREATEDTIME).format("MMMM D, YYYY"),
             level: data.LEVEL,
             link: `/admin/room/${data.ROWID}/dashboard`

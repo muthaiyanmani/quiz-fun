@@ -98,7 +98,7 @@ export default function DashboardPage({ children }) {
           </main>
 
           {/* Activity feed */}
-          <aside className="mt-3 bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
+          <aside className="activity-feed mt-3 bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5">
             <header className="flex items-center justify-between px-4 py-4 border-b border-white/5 sm:px-6 sm:py-6 lg:px-8">
               <h2 className="text-base font-semibold leading-7 text-indigo-600">
                 Activity feed
